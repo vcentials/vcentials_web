@@ -1,0 +1,17 @@
+
+.navbar_brand {
+    color: white;
+}
+
+.navbar_brand:focus, .navbar_brand:hover {
+    color: white;
+}
+
+.nav_links {
+    color: white;
+}
+
+.nav_toggler {
+    background-color:rgba(220, 53, 69, 0.5);
+    
+}
