@@ -1,11 +1,11 @@
 import './App.css'
-import NavBar from './NavBar/NavBar.jsx'
+import About from './About/About.jsx'
 
 function App() {
   
     return(
         <>
-        <NavBar/>
+            <About/>
         </>
     )
 }
