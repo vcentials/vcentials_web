@@ -1,11 +1,11 @@
 import './App.css'
-import About from './About/About.jsx'
+import ForgotPassword from './Login/ForgotPassword.jsx'
 
 function App() {
   
     return(
         <>
-            <About/>
+            <ForgotPassword/>
         </>
     )
 }
