@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "bootstrap/dist/css/bootstrap.min.css"
 
- function Login(){
+ function ForgotPassword(){
 
     return(
         <>
@@ -15,31 +15,24 @@ import "bootstrap/dist/css/bootstrap.min.css"
                 <Row className='d-flex justify-content-center'>
                     <Col md='6'>
                         <div  className="text-center">
-                            <h1>VCentials Temperature Recorder</h1>
-                            <h3>Log in</h3>
+                            <h1>Forgot password?</h1>
+                            
                         </div>
 
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Username*</Form.Label>
+                                <Form.Label>E-Mail</Form.Label>
                                 <Form.Control type="text" placeholder="Username" />
                             </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Password*</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
-                            </Form.Group>
                             <Button variant="danger" type="submit">
-                                Login
+                               Submit
                             </Button>
                             
                         </Form>
                         <div className="mt-3">
-                            <div>
-                                <a href="ForgotPassword.jsx">Forgot Password</a>
-                            </div>
                             <div className="mt-5">
-                                <a href="#">Create an account</a>
+                                <a href="#">Return to login</a>
                             </div>
                         </div>
                        
@@ -55,4 +48,4 @@ import "bootstrap/dist/css/bootstrap.min.css"
     )
  }
 
- export default Login
+ export default ForgotPassword
