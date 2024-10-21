@@ -1,11 +1,11 @@
 import './App.css'
-import ForgotPassword from './Login/ForgotPassword.jsx'
+import Registration from './Registration/Registration.jsx'
 
 function App() {
   
     return(
         <>
-            <ForgotPassword/>
+            <Registration/>
         </>
     )
 }
