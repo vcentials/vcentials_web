@@ -1,11 +1,11 @@
 import './App.css'
-import Registration from './Registration/Registration.jsx'
+import Profile from './Profile/Profile.jsx'
 
 function App() {
   
     return(
         <>
-            <Registration/>
+            <Profile/>
         </>
     )
 }
