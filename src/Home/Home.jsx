@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react'
 import './Home.css';
-
+import {Report} from '../Report/Report.jsx';
 
 function Home() {
     //Storing for list of records, populated with demo data for now until backend is finished
@@ -10,9 +10,12 @@ function Home() {
         {id: 2, date: '2024-10-19', time: '11:30', machine: 'East Freezer', machineTempF: 5, room: 'Room 107', roomTempF: 71, location: 'East' }
     ]);
 
+    // tracks the active state of the report generator
+    const [showReport, setShowReport] = useState(false);
 
     //keeps track of all records from users that use crud operations
     const [selectedRecords, setSelectedRecords] = useState([]);
+
     // handles form data objects
     const [formData, setFormData] = useState({
         user: '',
@@ -131,6 +134,13 @@ function Home() {
                         ))}
                         </tbody>
                     </table>
+                    <button onClick={() => setShowReport(!showReport)}>
+                        {showReport ? 'Hide Report' : 'Generate Report'}
+                    </button>
+
+                    {/* Render Report component conditionally */}
+                    {showReport && <Report />}
+
                 </div>
                 <div className="editorLayout">
                     <form className="formLayout">

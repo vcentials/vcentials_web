@@ -8,6 +8,7 @@ import Profile from './Profile/Profile.jsx'
 import About from './About/About.jsx'
 import NavBar from "./NavBar/NavBar.jsx";
 import Metrics from "./Metrics/Metrics.jsx";
+import PrintPreview from "./PrintPreview/PrintPreview.jsx";
 import './App.css'
 
 
@@ -20,11 +21,13 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<Home/>} />
+                    <Route path="/print-preview" element={<PrintPreview />} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="forgot-password" element={<ForgotPassword/>} />
                     <Route path="/profile" element={<Profile/>} />
                     <Route path="/about" element={<About/>} />
                     <Route path="/metrics" element={<Metrics/>} />
+                    
                 </Routes>
             </div>
         </Router>

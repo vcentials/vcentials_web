@@ -50,7 +50,6 @@ function Metrics() {
         ],
     };
 
-
     // fake data for the barchart (temporary until backend is implemented to make calls and display real data real time)
     const barData = {
         labels: ['West Campus', 'East Campus', 'Osceola Campus'],
@@ -72,6 +71,7 @@ function Metrics() {
         responsive: true,
         maintainAspectRatio: false,
     };
+
 
     return (
         <div className="container">
