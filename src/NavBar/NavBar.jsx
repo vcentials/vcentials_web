@@ -6,6 +6,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import "bootstrap/dist/css/bootstrap.min.css"
 import LogoutSVG from './LogoutSVG.jsx'
 import styles from './NavBar.module.css'
+import {Link} from 'react-router-dom';
+
 
 function NavBar(){
 
@@ -20,10 +22,10 @@ function NavBar(){
         <Navbar.Toggle aria-controls="responsive-navbar-nav" className={styles.nav_toggler}/>
         <Navbar.Collapse id="responsive-navbar-nav" >
           <Nav className="me-auto">
-            <Nav.Link className={styles.nav_links} href="#home">Home</Nav.Link>
-            <Nav.Link className={styles.nav_links} href="#about">About</Nav.Link>
-            <Nav.Link className={styles.nav_links} href="#profile">Profile</Nav.Link>
-            <Nav.Link className={styles.nav_links} href="#metrics">Metrics</Nav.Link>
+            <Nav.Link className={styles.nav_links} href="/">Home</Nav.Link>
+            <Nav.Link className={styles.nav_links} href="/about">About</Nav.Link>
+            <Nav.Link className={styles.nav_links} href="/profile">Profile</Nav.Link>
+            <Nav.Link className={styles.nav_links} href="/metrics">Metrics</Nav.Link>
           </Nav>
           <Nav>
           <Button variant="danger" type="submit"><LogoutSVG fillcolor="white" size="25"/> Logout</Button>
