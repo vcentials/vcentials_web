@@ -6,13 +6,15 @@ function About(){
     return(
 
         <>
-            <NavBar />
-
+         <NavBar/>
             <Container className={styles.top_space}>
                 <h1>About the VCentials Temperature Recorder</h1>
-                <p>
-                    You can add any text you'd like here.
-                </p>
+                <div>
+                    <p>
+                        You can add any text you'd like here.
+                    </p>
+                </div>
+
             </Container>
  
         </>

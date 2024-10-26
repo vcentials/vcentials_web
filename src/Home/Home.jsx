@@ -1,7 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react'
-import './Home.css';
+
 import {Report} from '../Report/Report.jsx';
+
+import styles from './Home.module.css';
+import NavBar from '../NavBar/NavBar.jsx'
+
 
 function Home() {
     //Storing for list of records, populated with demo data for now until backend is finished
@@ -100,10 +104,15 @@ function Home() {
     };
 
     return (
-        <div className="homePageView">
-            <div className="splitLayout">
-                <div className="gridWrapper">
-                    <table className="recordGrid">
+
+
+        <>
+        <NavBar/>
+        <div className={styles.homePageView}>
+            <div className={styles.splitLayout}>
+                <div className={styles.gridWrapper}>
+                    <table className={styles.recordGrid}>
+
                         <thead>
                         <tr>
                             <th>Date</th>
@@ -134,16 +143,9 @@ function Home() {
                         ))}
                         </tbody>
                     </table>
-                    <button onClick={() => setShowReport(!showReport)}>
-                        {showReport ? 'Hide Report' : 'Generate Report'}
-                    </button>
-
-                    {/* Render Report component conditionally */}
-                    {showReport && <Report />}
-
                 </div>
-                <div className="editorLayout">
-                    <form className="formLayout">
+                <div className={styles.editorLayout}>
+                    <form className={styles.formLayout}>
                         {/* Each field of the form for the user to input temp data */}
                         <div>
                             <label>User</label>
@@ -217,14 +219,13 @@ function Home() {
                                 onChange={handleFormChange}
                             />
                         </div>
-                        <div className="buttonLayout">
+                        <div className={styles.buttonLayout}>
                             <button type="button" onClick={handleSave}>Save</button> {/* Saves updated info added*/}
                             <button type="button" onClick={handleClearForm}>Clear</button> {/*Clears all of the info added into the form */}
                         </div>
                     </form>
                     {isAdmin && ( // only shows the delete button if the user is an admin
-                        <button
-                            className="deleteButton"
+                        <button className={styles.deleteButton}
                             onClick={() => setDeleteDialogOpen(true)}
                         >
                             Delete Selected Records
@@ -233,14 +234,14 @@ function Home() {
                 </div>
             </div>
             {deleteDialogOpen && ( // Delete confirmation printout to the user if they are an admin
-                <div className="confirmDialog">
+                <div className={styles.confirmDialog}>
                     <p>Are you sure you want to delete these records?</p>
                     <button onClick={handleDelete}>Confirm</button>
                     <button onClick={() => setDeleteDialogOpen(false)}>Cancel</button>
                 </div>
             )}
         </div>
-
+        </>
     );
 }
 
