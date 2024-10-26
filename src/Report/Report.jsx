@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import './Report.css'; // Add custom styling if needed
-=======
 import NavBar from '../NavBar/NavBar.jsx'
 import styles from './Report.module.css'; // Add custom styling if needed
->>>>>>> 90d493c3931f8140a49dc8fc5b89453d5d08e734
 
 export function Report() {
   const [records, setRecords] = useState([]);
@@ -57,11 +53,8 @@ export function Report() {
   };
   
   return (
-<<<<<<< HEAD
-=======
     <>
     <NavBar/>
->>>>>>> 90d493c3931f8140a49dc8fc5b89453d5d08e734
     <div className="report">
       <h2 className="report-title">Report View</h2>
       <div className="controls">
@@ -116,15 +109,8 @@ export function Report() {
       </div>
       <button onClick={handleGenerateReport} className="generate-report-button">Generate Report</button>
     </div>
-<<<<<<< HEAD
-  );
-};
-
-export default Report;
-=======
     </>
   );
 };
 
 export default Report;
->>>>>>> 90d493c3931f8140a49dc8fc5b89453d5d08e734
