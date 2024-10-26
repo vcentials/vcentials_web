@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { Container } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import {Link} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css"
 
  function Login(){
@@ -36,10 +37,12 @@ import "bootstrap/dist/css/bootstrap.min.css"
                         </Form>
                         <div className="mt-3">
                             <div>
-                                <a href="ForgotPassword.jsx">Forgot Password</a>
+                               
+                                <Link to="/forgotpassword">Forgot Password</Link>
                             </div>
                             <div className="mt-5">
-                                <a href="#">Create an account</a>
+                                
+                                <Link to="/Registration">Create an account</Link>
                             </div>
                         </div>
                        

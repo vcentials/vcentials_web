@@ -28,7 +28,7 @@ function Profile(){
     return(
 
         <>
-        <NavBar />
+       <NavBar/>
         <div className="mt-5">
             <Container>
 
