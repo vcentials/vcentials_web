@@ -4,6 +4,8 @@ import { Container } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "bootstrap/dist/css/bootstrap.min.css"
+import {Link} from 'react-router-dom';
+import Login from '../Login/Login.jsx'
 
  function ForgotPassword(){
 
@@ -32,7 +34,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
                         </Form>
                         <div className="mt-3">
                             <div className="mt-5">
-                                <a href="#">Return to login</a>
+                                <Link to='/login'><a href="#">Return to login</a></Link>
                             </div>
                         </div>
                        

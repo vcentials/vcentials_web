@@ -4,6 +4,8 @@ import { Container } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "bootstrap/dist/css/bootstrap.min.css"
+import {Link} from 'react-router-dom';
+import Login from '../Login/Login.jsx'
 
  function Registration(){
 
@@ -50,7 +52,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
                         </Form>
                         <div className="mt-3">
                             <div>
-                                <a href="ForgotPassword.jsx">Already have an account? Login here</a>
+                                <Link to="/login"><a href="ForgotPassword.jsx">Already have an account? Login here</a></Link>
                             </div>
 
                         </div>

@@ -25,10 +25,11 @@ function NavBar(){
             <Nav.Link className={styles.nav_links} href="/">Home</Nav.Link>
             <Nav.Link className={styles.nav_links} href="/about">About</Nav.Link>
             <Nav.Link className={styles.nav_links} href="/profile">Profile</Nav.Link>
+            <Nav.Link className={styles.nav_links} href="/admin">Admin</Nav.Link>
             <Nav.Link className={styles.nav_links} href="/metrics">Metrics</Nav.Link>
           </Nav>
           <Nav>
-          <Button variant="danger" type="submit"><LogoutSVG fillcolor="white" size="25"/> Logout</Button>
+          <Link to="/login"><Button variant="danger" type="submit"><LogoutSVG fillcolor="white" size="25"/> Logout</Button></Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
