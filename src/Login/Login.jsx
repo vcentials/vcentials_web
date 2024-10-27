@@ -30,9 +30,12 @@ import "bootstrap/dist/css/bootstrap.min.css"
                                 <Form.Label>Password*</Form.Label>
                                 <Form.Control type="password" placeholder="Password" />
                             </Form.Group>
-                            <Button variant="danger" type="submit">
-                                Login
-                            </Button>
+                            <Link to="/">
+                                <Button variant="danger" type="submit">
+                                    Login
+                                </Button>
+                            </Link>
+
                             
                         </Form>
                         <div className="mt-3">

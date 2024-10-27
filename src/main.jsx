@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import NavBar from './NavBar/NavBar.jsx'
 import Home from './Home/Home.jsx'
 import Profile from './Profile/Profile.jsx'
 import Metrics from './Metrics/Metrics.jsx'
@@ -11,6 +10,8 @@ import Login from './Login/Login.jsx'
 import PrintPreview from './PrintPreview/PrintPreview.jsx'
 import Registration from './Registration/Registration.jsx'
 import ForgotPassword from './Login/ForgotPassword.jsx'
+import Admin from './Admin/Admin.jsx'
+import Email from './Email/Email.jsx'
 import './index.css'
 
 const router = createBrowserRouter([
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
   {
     path:"/forgotpassword",
     element: <ForgotPassword/>
+  },
+  {
+    path:"/admin",
+    element: <Admin/>
+  },
+  {
+    path:"/email",
+    element: <Email/>
   },
 
 ]);
