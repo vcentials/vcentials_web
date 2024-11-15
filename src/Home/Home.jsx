@@ -1,11 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react'
-
 import {Report} from '../Report/Report.jsx';
-
 import styles from './Home.module.css';
 import NavBar from '../NavBar/NavBar.jsx'
-
 
 function Home() {
     //Storing for list of records, populated with demo data for now until backend is finished
@@ -14,11 +11,20 @@ function Home() {
         {id: 2, date: '2024-10-19', time: '11:30', machine: 'East Freezer', machineTempF: 5, room: 'Room 107', roomTempF: 71, location: 'East' }
     ]);
 
+    // Add state for filtered records
+    const [filteredRecords, setFilteredRecords] = useState([]);
+
     // tracks the active state of the report generator
     const [showReport, setShowReport] = useState(false);
 
     //keeps track of all records from users that use crud operations
     const [selectedRecords, setSelectedRecords] = useState([]);
+
+    // Add new state for date range search
+    const [dateRange, setDateRange] = useState({
+        startDate: '',
+        endDate: ''
+    });
 
     // handles form data objects
     const [formData, setFormData] = useState({
@@ -39,24 +45,107 @@ function Home() {
     // useEffect hook used to perform fetching records
     useEffect(() => {
         fetchRecords();
+        setFilteredRecords(records); // Initialize filtered records with all records
     }, []);
-
 
     // placeholder method to function fake records, until backend is implemented
     const fetchRecords = () => {
         // not fetching anything until backend is implemented
     };
 
+    // Handle date range changes
+    const handleDateRangeChange = (e) => {
+        const { name, value } = e.target;
+        setDateRange(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    // Handle search button click with actual filtering
+    const handleSearch = () => {
+        if (!dateRange.startDate || !dateRange.endDate) {
+            alert('Please select both start and end dates');
+            return;
+        }
+
+        const filtered = records.filter(record => {
+            const recordDate = new Date(record.date);
+            const startDate = new Date(dateRange.startDate);
+            const endDate = new Date(dateRange.endDate);
+            
+            return recordDate >= startDate && recordDate <= endDate;
+        });
+
+        setFilteredRecords(filtered);
+    };
+
+    // Handle print button click with filtered records
+    const handlePrint = () => {
+        // Store the current content of the body
+        const originalContent = document.body.innerHTML;
+        
+        // Create a print-specific version of the table
+        let printContent = `
+            <h2>Records from ${dateRange.startDate} to ${dateRange.endDate}</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid black; padding: 8px;">Date</th>
+                        <th style="border: 1px solid black; padding: 8px;">Time</th>
+                        <th style="border: 1px solid black; padding: 8px;">Machine</th>
+                        <th style="border: 1px solid black; padding: 8px;">Machine Temp (℉)</th>
+                        <th style="border: 1px solid black; padding: 8px;">Room</th>
+                        <th style="border: 1px solid black; padding: 8px;">Room Temp (℉)</th>
+                        <th style="border: 1px solid black; padding: 8px;">Location</th>
+                        <th style="border: 1px solid black; padding: 8px;">User</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        filteredRecords.forEach(record => {
+            printContent += `
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px;">${record.date}</td>
+                    <td style="border: 1px solid black; padding: 8px;">${record.time}</td>
+                    <td style="border: 1px solid black; padding: 8px;">${record.machine}</td>
+                    <td style="border: 1px solid black; padding: 8px;">${record.machineTempF}</td>
+                    <td style="border: 1px solid black; padding: 8px;">${record.room}</td>
+                    <td style="border: 1px solid black; padding: 8px;">${record.roomTempF}</td>
+                    <td style="border: 1px solid black; padding: 8px;">${record.location}</td>
+                    <td style="border: 1px solid black; padding: 8px;">${record.user}</td>
+                </tr>
+            `;
+        });
+
+        printContent += `
+                </tbody>
+            </table>
+        `;
+
+        // Replace body content with print content
+        document.body.innerHTML = printContent;
+        
+        // Print
+        window.print();
+        
+        // Restore original content
+        document.body.innerHTML = originalContent;
+        
+        // Re-render React components
+        window.location.reload();
+    };
 
     // function to handle selecting or deselecting records
     const handleSelectRecord = (recordId) => {
-        if (selectedRecords.includes(recordId)) {
+        @@ -57,7 +146,6 @@ function Home()
+            if (selectedRecords.includes(recordId)) {
             setSelectedRecords(selectedRecords.filter(id => id !== recordId));
         } else {
             setSelectedRecords([...selectedRecords, recordId]);
         }
     };
-
 
     // handles user input in the form for updates from user
     const handleFormChange = (e) => {
@@ -66,7 +155,6 @@ function Home() {
             [name]: value,
         });
     };
-
 
     //clears the form data and resets the input fields for the user
     const handleClearForm = () => {
@@ -82,7 +170,6 @@ function Home() {
         });
     };
 
-
     // adds a new record based on user input into the form (temp)
     const handleSave = () => {
         const newRecord = {
@@ -90,29 +177,49 @@ function Home() {
             ...formData                      //demo adding a new record for now, until backened is developed and connected
         };
         setRecords([...records, newRecord]);
+        setFilteredRecords([...records, newRecord]); // Update filtered records too
         handleClearForm();
     };
-
 
     // deletes selected records chosen by the user (temp until backend is implemented)
     const handleDelete = () => {
         // demo deleting records until backend is developed
         const remainingRecords = records.filter(record => !selectedRecords.includes(record.id));
         setRecords(remainingRecords); // updates the form with the records remaining
+        setFilteredRecords(remainingRecords); // Update filtered records too
         setSelectedRecords([]); // clears the selected records chosen by the user
         setDeleteDialogOpen(false); // closes the delete confirmation dialog
     };
 
     return (
-
-
         <>
         <NavBar/>
         <div className={styles.homePageView}>
+            <div className={styles.dateSearchSection}>
+                <div className={styles.dateInputs}>
+                    <label>Start Date:</label>
+                    <input
+                        type="date"
+                        name="startDate"
+                        value={dateRange.startDate}
+                        onChange={handleDateRangeChange}
+                        className={styles.dateInput}
+                    />
+                    <label>End Date:</label>
+                    <input
+                        type="date"
+                        name="endDate"
+                        value={dateRange.endDate}
+                        onChange={handleDateRangeChange}
+                        className={styles.dateInput}
+                    />
+                    <button onClick={handleSearch} className={styles.searchButton}>Search</button>
+                    <button onClick={handlePrint} className={styles.printButton}>Print</button>
+                </div>
+            </div>
             <div className={styles.splitLayout}>
                 <div className={styles.gridWrapper}>
                     <table className={styles.recordGrid}>
-
                         <thead>
                         <tr>
                             <th>Date</th>
@@ -122,13 +229,14 @@ function Home() {
                             <th>Room</th>
                             <th>Room Temp (℉)</th>
                             <th>Location</th>
-                            <th>Username</th>
+                            <th>User</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {records.map(record => (
+                        {filteredRecords.map(record => (
                             <tr key={record.id}
-                                onClick={() => handleSelectRecord(record.id)} // on user click user can select/deselect a record
+                                onClick={() => handleSelectRecord(record.id)}
+                                {/* Each field of the form for the user to input temp data */}      
                                 className={selectedRecords.includes(record.id) ? 'selected' : ''}
                             >
                                 <td>{record.date}</td>
@@ -138,7 +246,7 @@ function Home() {
                                 <td>{record.room}</td>
                                 <td>{record.roomTempF}</td>
                                 <td>{record.location}</td>
-                                <td>{record.username}</td>
+                                <td>{record.user}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -146,7 +254,6 @@ function Home() {
                 </div>
                 <div className={styles.editorLayout}>
                     <form className={styles.formLayout}>
-                        {/* Each field of the form for the user to input temp data */}
                         <div>
                             <label>User</label>
                             <input
@@ -220,8 +327,7 @@ function Home() {
                             />
                         </div>
                         <div className={styles.buttonLayout}>
-                            <button type="button" onClick={handleSave}>Save</button> {/* Saves updated info added*/}
-                            <button type="button" onClick={handleClearForm}>Clear</button> {/*Clears all of the info added into the form */}
+                            <button type="button" onClick={handleSave}>Save</button>  {/* Saves updated info added*/}                            <button type="button" onClick={handleClearForm}>Clear</button>
                         </div>
                     </form>
                     {isAdmin && ( // only shows the delete button if the user is an admin
@@ -234,7 +340,7 @@ function Home() {
                 </div>
             </div>
             {deleteDialogOpen && ( // Delete confirmation printout to the user if they are an admin
-                <div className={styles.confirmDialog}>
+                    <div className={styles.confirmDialog}>
                     <p>Are you sure you want to delete these records?</p>
                     <button onClick={handleDelete}>Confirm</button>
                     <button onClick={() => setDeleteDialogOpen(false)}>Cancel</button>
