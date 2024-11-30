@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar.jsx'
-import styles from './Report.module.css'; // Add custom styling if needed
+//import styles from './Report.module.css'; Add custom styling if needed
 
 export function Report() {
   const [records, setRecords] = useState([]);
