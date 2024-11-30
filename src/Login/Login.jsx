@@ -5,10 +5,28 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {Link} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css"
+import { useState } from 'react';
+
+import {auth} from '../firebase.js'
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
  function Login(){
 
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
+
+    const login = async () => {
+        try {
+            const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+            console.log(user);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     return(
+
+
         <>
         <div  className="mt-5">
             <Container>
@@ -22,17 +40,17 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Username*</Form.Label>
-                                <Form.Control type="text" placeholder="Username" />
+                                <Form.Label>Email*</Form.Label>
+                                <Form.Control type="text" placeholder="Email" onChange={(event) => {setLoginEmail(event.target.value)}} required/>
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Password*</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" placeholder="Password" onChange={(event) => {setLoginPassword(event.target.value)}} required/>
                             </Form.Group>
                             <Link to="/">
-                                <Button variant="danger" type="submit">
-                                    Login
+                                <Button variant="danger" type="submit" onClick={login}>
+                                Login
                                 </Button>
                             </Link>
 

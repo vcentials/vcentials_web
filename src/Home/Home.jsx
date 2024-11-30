@@ -2,9 +2,18 @@
 import React, {useState, useEffect} from 'react'
 import styles from './Home.module.css';
 import NavBar from '../NavBar/NavBar.jsx'
-
+import {auth} from '../firebase.js'
+import { onAuthStateChanged } from 'firebase/auth';
 
 function Home() {
+
+    const [user, setUser] = useState({});
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    })
+
+    
+
     //Storing for list of records, populated with demo data for now until backend is finished
     const [records, setRecords] = useState([
         {id: 1, date: '2024-10-19', time: '11:00', machine: 'West Freezer', machineTempF: 10, room: 'Room 205', roomTempF: 69, location: 'West' },
@@ -101,6 +110,7 @@ function Home() {
         <>
         <NavBar/>
         <div className={styles.homePageView}>
+    
             <div className={styles.splitLayout}>
                 <div className={styles.gridWrapper}>
                     <table className={styles.recordGrid}>

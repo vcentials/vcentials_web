@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar.jsx'
+import { Container } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import styles from './Report.module.css'; // Add custom styling if needed
+import "bootstrap/dist/css/bootstrap.min.css"
+
 
 export function Report() {
   const [records, setRecords] = useState([]);
@@ -55,60 +62,134 @@ export function Report() {
   return (
     <>
     <NavBar/>
-    <div className="report">
-      <h2 className="report-title">Report View</h2>
-      <div className="controls">
-        <label className="checkbox-label">
-          <input type="checkbox" checked={sortEnabled} onChange={handleSortChange} /> Sort by Date
-        </label>
-        <label className="checkbox-label">
-          <input type="checkbox" checked={groupEnabled} onChange={handleGroupChange} /> Group by Criteria
-        </label>
-        <div className="date-picker">
-          <label className="date-label">
-            Start Date:
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="date-input" />
-          </label>
-          <label className="date-label">
-            End Date:
-            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="date-input" />
-          </label>
-        </div>
-        <div className="location-picker">
-          <label className="location-label">
-            Location:
-            <select value={selectedLocation} onChange={(e) => setSelectedLocation(e.target.value)} className="location-select">
-              <option value="">All Locations</option>
-              <option value="West Campus">West Campus</option>
-              <option value="East Campus">East Campus</option>
-              <option value="Osceola Campus">Osceola Campus</option>
-            </select>
-          </label>
-        </div>
-        <div className="room-picker">
-          <label className="room-label">
-            Room:
-            <input type="text" value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)} placeholder="Enter room number" className="room-input" />
-          </label>
-        </div>
-        <div className="machine-picker">
-          <label className="machine-label">
-            Machine:
-            <input type="text" value={selectedMachine} onChange={(e) => setSelectedMachine(e.target.value)} placeholder="Enter machine type" className="machine-input" />
-          </label>
-        </div>
-        <div className="username-picker">
-          <label className="username-label">
-            Username:
-            <input type="text" value={selectedUsername} onChange={(e) => setSelectedUsername(e.target.value)} placeholder="Enter username" className="username-input" />
-          </label>
-        </div>
-      </div>
-      <div className="record-count">
-        <h3 className="record-count-title">Number of Records: {filteredRecords.length}</h3>
-      </div>
-      <button onClick={handleGenerateReport} className="generate-report-button">Generate Report</button>
+
+    <div className="mt-5">
+    <Container>
+      <Row className='d-flex justify-content-center'>
+        <Col md="6">
+          <h2 className="report-title">Report View</h2>
+            <Form>
+              <div>
+                <div>
+                  <h4>Sorting options:</h4>
+                </div>
+              {['checkbox'].map((type) => (
+                <div key={`inline-${type}`} className="mb-3">
+                  <Form.Check
+                    inline
+                    label="Date"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-1`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Room"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Machine"
+                    type={type}
+                    id={`inline-${type}-3`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Location"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Username"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                </div>
+              ))}
+              </div>
+
+              <div>
+                <div>
+                  <h4>Grouping options:</h4>
+                </div>
+              {['checkbox'].map((type) => (
+                <div key={`inline-${type}`} className="mb-3">
+                  <Form.Check
+                    inline
+                    label="Date"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-1`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Room"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Machine"
+                    type={type}
+                    id={`inline-${type}-3`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Location"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                  <Form.Check
+                    inline
+                    label="Username"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                </div>
+              ))}
+              </div>
+
+              <div>
+
+                <Form.Label>Start Date</Form.Label>
+                <Form.Control type="Date" value={startDate} onChange={(e) => setStartDate(e.target.value)}></Form.Control>
+                <Form.Label>End Date</Form.Label>
+                <Form.Control type="Date" value={endDate} onChange={(e) => setEndDate(e.target.value)}></Form.Control>
+              </div>
+
+              <div>
+                <Form.Label>Location:</Form.Label>
+                <Form.Select aria-label="Default select example">
+                  <option value="">All Locations</option>
+                  <option value="West Campus">West Campus</option>
+                  <option value="East Campus">East Campus</option>
+                  <option value="Osceola Campus">Osceola Campus</option>
+                </Form.Select>
+              </div>
+
+              <Button variant="danger" type="submit" onClick={handleGenerateReport}>
+                  Generate Report
+              </Button>
+            
+          </Form>
+        </Col>
+
+      </Row>
+
+    </Container>
+
     </div>
+
+    
+
     </>
   );
 };

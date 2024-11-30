@@ -7,9 +7,15 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import LogoutSVG from './LogoutSVG.jsx'
 import styles from './NavBar.module.css'
 import {Link} from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import {auth} from '../firebase.js'
 
 
 function NavBar(){
+
+  const logout = async () => {
+    await signOut(auth);
+  }
 
 
     return(
@@ -29,7 +35,7 @@ function NavBar(){
             <Nav.Link className={styles.nav_links} href="/metrics">Metrics</Nav.Link>
           </Nav>
           <Nav>
-          <Link to="/login"><Button variant="danger" type="submit"><LogoutSVG fillcolor="white" size="25"/> Logout</Button></Link>
+          <Link to="/login"><Button variant="danger" type="submit" onClick={logout}><LogoutSVG fillcolor="white" size="25"/> Logout</Button></Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
