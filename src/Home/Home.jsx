@@ -99,17 +99,16 @@ function Home() {
 
   return (
     <>
-    <NavBar/>
-    <div className="homePageView">
-      <div className="splitLayout">
-        <div className="gridWrapper">
-          {loading ? (
-            <div
-              className="spinner-border text-primary spinner-border-lg"
-              role="status"
-            ></div>
-          ) : (
-            <>
+      <NavBar />
+      <div className="homePageView">
+        <div className="splitLayout">
+          <div className="gridWrapper">
+            {loading ? (
+              <div
+                className="spinner-border text-primary spinner-border-lg"
+                role="status"
+              ></div>
+            ) : (
               <table className="recordGrid">
                 <thead>
                   <tr>
@@ -161,136 +160,129 @@ function Home() {
                   ))}
                 </tbody>
               </table>
-              <button onClick={() => setShowReport(!showReport)}>
-                {showReport ? "Hide Report" : "Generate Report"}
-              </button>
-
-              {/* Render Report component conditionally */}
-              {showReport && <Report />}
-            </>
-          )}
-        </div>
-        <div className="editorLayout">
-          <form className="formLayout">
-            {/* Each field of the form for the user to input temp data */}
-            <div>
-              <label>User</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label>Location</label>
-              <select
-                name="location"
-                value={formData.location}
-                onChange={handleFormChange}
-              >
-                <option selected=""></option>
-                <option value="East Campus">East Campus</option>
-                <option value="Lake Nona Campus">Lake Nona Campus</option>
-                <option value="West Campus">West Campus</option>
-                <option value="Osceola Campus">Osceola Campus</option>
-              </select>
-            </div>
-            <div>
-              <label>Room</label>
-              <select
-                name="room"
-                value={formData.room}
-                onChange={handleFormChange}
-              >
-                <option selected=""></option>
-                <option value="Front Room">Front Room</option>    
-                <option value="Back Room">Back Room</option>
-                <option value="Lab A">Lab A</option>
-                <option value="Lab B">Lab B</option>
-                <option value="Storage Room">Storage Room</option>            
-              </select>
-            </div>
-            <div>
-              <label>Machine</label>
-              <select
-                name="machine"
-                value={formData.machine}
-                onChange={handleFormChange}
-              >
-              <option selected=""></option>
-              <option value="Refrigerator">Refrigerator</option>
-              <option value="Freezer_A">Freezer A</option>  
-              <option value="Freezer_B">Freezer B</option>
-              </select>
-            </div>
-            <div>
-              <label>Machine Temp (℉)</label>
-              <input
-                type="number"
-                name="machineTemp"
-                value={formData.machineTemp}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label>Room Temp (℉)</label>
-              <input
-                type="number"
-                name="roomTemp"
-                value={formData.roomTemp}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label>Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label>Time</label>
-              <input
-                type="time"
-                name="time"
-                value={formData.time}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div className="buttonLayout">
-              <button type="button" onClick={handleSave}>
-                Save
-              </button>{" "}
+            )}
+          </div>
+          <div className="editorLayout">
+            <form className="formLayout">
+              <div>
+                <label>User</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleFormChange}
+                />
+              </div>
+              <div>
+                <label>Location</label>
+                <select
+                  name="location"
+                  value={formData.location}
+                  onChange={handleFormChange}
+                >
+                  <option value="">Select</option>
+                  <option value="East Campus">East Campus</option>
+                  <option value="Lake Nona Campus">Lake Nona Campus</option>
+                  <option value="West Campus">West Campus</option>
+                  <option value="Osceola Campus">Osceola Campus</option>
+                </select>
+              </div>
+              <div>
+                <label>Room</label>
+                <select
+                  name="room"
+                  value={formData.room}
+                  onChange={handleFormChange}
+                >
+                  <option value="">Select</option>
+                  <option value="Front Room">Front Room</option>
+                  <option value="Back Room">Back Room</option>
+                  <option value="Lab A">Lab A</option>
+                  <option value="Lab B">Lab B</option>
+                  <option value="Storage Room">Storage Room</option>
+                </select>
+              </div>
+              <div>
+                <label>Machine</label>
+                <select
+                  name="machine"
+                  value={formData.machine}
+                  onChange={handleFormChange}
+                >
+                  <option value="">Select</option>
+                  <option value="Refrigerator">Refrigerator</option>
+                  <option value="Freezer_A">Freezer A</option>
+                  <option value="Freezer_B">Freezer B</option>
+                </select>
+              </div>
+              <div>
+                <label>Machine Temp (℉)</label>
+                <input
+                  type="number"
+                  name="machineTemp"
+                  value={formData.machineTemp}
+                  onChange={handleFormChange}
+                />
+              </div>
+              <div>
+                <label>Room Temp (℉)</label>
+                <input
+                  type="number"
+                  name="roomTemp"
+                  value={formData.roomTemp}
+                  onChange={handleFormChange}
+                />
+              </div>
+              <div>
+                <label>Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleFormChange}
+                />
+              </div>
+              <div>
+                <label>Time</label>
+                <input
+                  type="time"
+                  name="time"
+                  value={formData.time}
+                  onChange={handleFormChange}
+                />
+              </div>
+              <div className="buttonLayout">
+                <button type="button" onClick={handleSave}>
+                  Save
+                </button>{" "}
               {/* Saves updated info added*/}
-              <button type="button" onClick={handleClearForm}>
-                Clear
-              </button>{" "}
+                <button type="button" onClick={handleClearForm}>
+                  Clear
+                </button>{" "}
               {/*Clears all of the info added into the form */}
-            </div>
-          </form>
-          {/* {isAdmin && ( // only shows the delete button if the user is an admin
-            <button
-              className="deleteButton"
-              onClick={() => setDeleteDialogOpen(true)}
-            >
-              Delete Selected Records
+              </div>
+            </form>
+            {/* Moved the Generate Report button and report rendering here */}
+            <button onClick={() => setShowReport(!showReport)}>
+              {showReport ? "Hide Report" : "Generate Report"}
             </button>
-          )} */}
+            {showReport && <Report />}
+            <button onClick={() => navigate('/print-preview', { state: { records: filteredRecords } })}>
+              Print Report
+            </button>
+          </div>
         </div>
+        {deleteDialogOpen && (
+          <div className="confirmDialog">
+            <p>Are you sure you want to delete these records?</p>
+            <button onClick={handleDelete}>Confirm</button>
+            <button onClick={() => setDeleteDialogOpen(false)}>Cancel</button>
+          </div>
+        )}
       </div>
-      {deleteDialogOpen && ( // Delete confirmation printout to the user if they are an admin
-        <div className="confirmDialog">
-          <p>Are you sure you want to delete these records?</p>
-          <button onClick={handleDelete}>Confirm</button>
-          <button onClick={() => setDeleteDialogOpen(false)}>Cancel</button>
-        </div>
-      )}
-    </div>
     </>
   );
 }
 
 export default Home;
+
