@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar.jsx'
-import { Container } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import styles from './Report.module.css'; // Add custom styling if needed
-import "bootstrap/dist/css/bootstrap.min.css"
+//import styles from './Report.module.css'; Add custom styling if needed
 
 
 export function Report() {
