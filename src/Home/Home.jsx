@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from "react";
 import { useEffectOnce, useList } from "react-use";
 import { addDoc, deleteDoc, doc, getFirestore } from "firebase/firestore/lite";
@@ -8,8 +9,16 @@ import { Report } from "../Report/Report.jsx";
 import { app } from "../firebase.js";
 import "./Home.css";
 import NavBar from '../NavBar/NavBar.jsx'
+import {auth} from '../firebase.js'
+import { onAuthStateChanged } from 'firebase/auth';
 
 function Home() {
+  
+  
+    const [user, setUser] = useState({});
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    })
   const [data, { push, clear }] = useList([]);
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState("");
@@ -90,6 +99,7 @@ function Home() {
     handleClearForm();
   };
 
+
   // deletes selected records chosen by the user (temp until backend is implemented)
   const handleDelete = async () => {
     await deleteDoc(doc(db, "temperatures", selectedId));
@@ -135,6 +145,7 @@ function Home() {
                                 setDeleteDialogOpen(true);
                                 setSelectedId(record.id);
                               }}
+
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"

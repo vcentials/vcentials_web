@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
 import { useLocation } from 'react-router-dom'; // to receive the state passed from the Report page
+
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import NavBar from '../NavBar/NavBar.jsx';
+
 
 const PrintPreview = () => {
     const printRef = useRef(); // Create a reference to the content we want to print
@@ -44,6 +46,7 @@ const PrintPreview = () => {
     };
 
     // Save the content as PDF
+
     const handleSavePDF = () => {
         const contentToPrint = printRef.current;
         html2canvas(contentToPrint).then(canvas => {
@@ -54,7 +57,9 @@ const PrintPreview = () => {
         });
     };
 
+
     // Save the content as JPG
+
     const handleSaveJPG = () => {
         const contentToPrint = printRef.current;
         html2canvas(contentToPrint).then(canvas => {
@@ -72,6 +77,7 @@ const PrintPreview = () => {
             <div>
                 <h1>Print Preview Example</h1>
 
+        
                 {/* Render the report passed from Report.jsx */}
                 <div ref={printRef}>
                     {/* If records are present, render them */}
@@ -109,7 +115,7 @@ const PrintPreview = () => {
                     )}
                 </div>
                 
-                {/* Buttons to print, save as PDF or JPG */}
+
                 <button onClick={handlePrint}>Print Page</button>
                 <button onClick={handleSavePDF}>Save as PDF</button>
                 <button onClick={handleSaveJPG}>Save as JPG</button>
@@ -118,8 +124,9 @@ const PrintPreview = () => {
     );
 };
 
+
 export default PrintPreview;
 
 export default PrintPreview;
  
- 
+

@@ -5,9 +5,27 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "bootstrap/dist/css/bootstrap.min.css"
 import {Link} from 'react-router-dom';
-import Login from '../Login/Login.jsx'
+import { useState } from 'react';
+import {auth} from '../firebase.js'
+import { sendPasswordResetEmail } from 'firebase/auth';
+
+
 
  function ForgotPassword(){
+
+    const [resetEmail, setResetEmail] = useState("");
+
+    const reset = async(e) => {
+        e.preventDefault();
+        sendPasswordResetEmail(auth, resetEmail)
+        .then(() => {
+          alert("email sent");
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+    }
 
     return(
         <>
@@ -21,10 +39,10 @@ import Login from '../Login/Login.jsx'
                             
                         </div>
 
-                        <Form>
+                        <Form onSubmit={(e)=>reset(e)}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>E-Mail</Form.Label>
-                                <Form.Control type="text" placeholder="Username" />
+                                <Form.Control type="text" placeholder="Email" onChange={(event) => {setResetEmail(event.target.value)}}/>
                             </Form.Group>
 
                             <Button variant="danger" type="submit">
