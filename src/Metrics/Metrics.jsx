@@ -1,11 +1,7 @@
-// src/Metrics.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styles from './Metrics.module.css';
 import { PolarArea, Bar } from 'react-chartjs-2';
 import NavBar from '../NavBar/NavBar.jsx';
-// usage of importing Chart.js library components for chart functionality on the metrics page
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -17,7 +13,6 @@ import {
     Legend
 } from 'chart.js';
 
-// registers the Chart.js components that will be used in the charts due to be created from the data retrieved
 ChartJS.register(
     RadialLinearScale,
     LinearScale,
@@ -30,57 +25,11 @@ ChartJS.register(
 
 function Metrics() {
     const [menuActive, setMenuActive] = useState(false);
-    const printRef = useRef(); // Create a reference for printing
 
     const toggleMenu = () => {
         setMenuActive(!menuActive);
     };
 
-    // Function to handle print
-    const handlePrint = () => {
-        const contentToPrint = printRef.current;
-        const printWindow = window.open('', '', 'width=800,height=600');
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <title>Print Preview</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; }
-                    </style>
-                </head>
-                <body>${contentToPrint.innerHTML}</body>
-            </html>
-        `);
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();
-    };
-
-    // Function to save as PDF
-    const handleSavePDF = () => {
-        const contentToPrint = printRef.current;
-        html2canvas(contentToPrint).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF();
-            pdf.addImage(imgData, 'PNG', 0, 0);
-            pdf.save('download.pdf');
-        });
-    };
-
-    // Function to save as JPG
-    const handleSaveJPG = () => {
-        const contentToPrint = printRef.current;
-        html2canvas(contentToPrint).then(canvas => {
-            const imgData = canvas.toDataURL('image/jpeg');
-            const link = document.createElement('a');
-            link.href = imgData;
-            link.download = 'download.jpg';
-            link.click();
-        });
-    };
-
-    // Fake data for the charts
     const polarData = {
         labels: ['West Campus', 'East Campus', 'Osceola Campus'],
         datasets: [{
@@ -108,7 +57,7 @@ function Metrics() {
         <>
             <NavBar />
             <div className={styles.container}>
-                <div className={styles.main} ref={printRef}>
+                <div className={styles.main}>
                     <div className={styles.topbar}>
                         <div className={styles.toggle} onClick={toggleMenu}>
                             <ion-icon name="menu-outline"></ion-icon>
@@ -122,13 +71,6 @@ function Metrics() {
                         <div className={styles.user}>
                             <img src="VCentials.jpg" alt="User" />
                         </div>
-                    </div>
-
-                    
-                    <div className={styles.buttonContainer}>
-                        <button onClick={handlePrint}>Print Page</button>
-                        <button onClick={handleSavePDF}>Save as PDF</button>
-                        <button onClick={handleSaveJPG}>Save as JPG</button>
                     </div>
 
                     <div className={styles.cardBox}>
