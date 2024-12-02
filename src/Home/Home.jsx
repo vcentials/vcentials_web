@@ -1,26 +1,19 @@
-
-
 import React, { useState, useEffect } from "react";
 import { useEffectOnce, useList } from "react-use";
 import { addDoc, deleteDoc, doc, getFirestore } from "firebase/firestore/lite";
 import { collection, getDocs } from "firebase/firestore/lite";
-
 import { Report } from "../Report/Report.jsx";
 import { app } from "../firebase.js";
 import "./Home.css";
-import NavBar from '../NavBar/NavBar.jsx'
+import NavBar from "../NavBar/NavBar.jsx";
 import {auth} from '../firebase.js'
 import { onAuthStateChanged } from 'firebase/auth';
 
 function Home() {
-  
-  
-    const [user, setUser] = useState({});
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    })
+
   const [data, { push, clear }] = useList([]);
   const [loading, setLoading] = useState(false);
+
   const [selectedId, setSelectedId] = useState("");
   // initialize firestore
   const db = getFirestore(app);
@@ -44,7 +37,7 @@ function Home() {
   // tracks the active state of the report generator
   const [showReport, setShowReport] = useState(false);
 
-  // handles form data objects
+
   const [formData, setFormData] = useState({
     user: "",
     location: "",
@@ -56,20 +49,7 @@ function Home() {
     time: "",
   });
 
-  // toggles boolean admin view to true for now, until backend is finished to show record deletion
-  const [isAdmin, setIsAdmin] = useState(true); //true to show working webpage
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  // function to handle selecting or deselecting records
-  //   const handleSelectRecord = (recordId) => {
-  //     if (selectedRecords.includes(recordId)) {
-  //       setSelectedRecords(selectedRecords.filter((id) => id !== recordId));
-  //     } else {
-  //       setSelectedRecords([...selectedRecords, recordId]);
-  //     }
-  //   };
-
-  // handles user input in the form for updates from user
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -78,10 +58,9 @@ function Home() {
     });
   };
 
-  //clears the form data and resets the input fields for the user
   const handleClearForm = () => {
     setFormData({
-      username: "",
+      user: "",
       location: "",
       room: "",
       machine: "",
@@ -92,19 +71,15 @@ function Home() {
     });
   };
 
-  // adds a new record based on user input into the form (temp)
   const handleSave = async () => {
     await addDoc(collectionRef, formData);
     getDataFromFirebase();
     handleClearForm();
   };
 
-
-  // deletes selected records chosen by the user (temp until backend is implemented)
   const handleDelete = async () => {
     await deleteDoc(doc(db, "temperatures", selectedId));
     getDataFromFirebase();
-    setDeleteDialogOpen(false);
   };
 
   return (
@@ -123,7 +98,6 @@ function Home() {
                 <table className="recordGrid">
                   <thead>
                     <tr>
-                      {isAdmin && <th>Action</th>}
                       <th>Date</th>
                       <th>Time</th>
                       <th>Machine</th>
@@ -131,35 +105,12 @@ function Home() {
                       <th>Room</th>
                       <th>Room Temp (℉)</th>
                       <th>Location</th>
-                      <th>Username</th>
+                      <th>User</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.map((record) => (
                       <tr key={record.id}>
-                        {isAdmin && (
-                          <td>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setDeleteDialogOpen(true);
-                                setSelectedId(record.id);
-                              }}
-
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-trash3"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                              </svg>
-                            </button>
-                          </td>
-                        )}
                         <td>{record.date}</td>
                         <td>{record.time}</td>
                         <td>{record.machine}</td>
@@ -167,7 +118,7 @@ function Home() {
                         <td>{record.room}</td>
                         <td>{record.roomTemp}</td>
                         <td>{record.location}</td>
-                        <td>{record.username}</td>
+                        <td>{record.user}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -181,52 +132,37 @@ function Home() {
                 <label>User</label>
                 <input
                   type="text"
-                  name="username"
-                  value={formData.username}
+                  name="user"
+                  value={formData.user}
                   onChange={handleFormChange}
                 />
               </div>
               <div>
                 <label>Location</label>
-                <select
+                <input
+                  type="text"
                   name="location"
                   value={formData.location}
                   onChange={handleFormChange}
-                >
-                  <option selected=""></option>
-                  <option value="East Campus">East Campus</option>
-                  <option value="Lake Nona Campus">Lake Nona Campus</option>
-                  <option value="West Campus">West Campus</option>
-                  <option value="Osceola Campus">Osceola Campus</option>
-                </select>
+                />
               </div>
               <div>
                 <label>Room</label>
-                <select
+                <input
+                  type="text"
                   name="room"
                   value={formData.room}
                   onChange={handleFormChange}
-                >
-                  <option selected=""></option>
-                  <option value="Front Room">Front Room</option>
-                  <option value="Back Room">Back Room</option>
-                  <option value="Lab A">Lab A</option>
-                  <option value="Lab B">Lab B</option>
-                  <option value="Storage Room">Storage Room</option>
-                </select>
+                />
               </div>
               <div>
                 <label>Machine</label>
-                <select
+                <input
+                  type="text"
                   name="machine"
                   value={formData.machine}
                   onChange={handleFormChange}
-                >
-                  <option selected=""></option>
-                  <option value="Refrigerator">Refrigerator</option>
-                  <option value="Freezer_A">Freezer A</option>
-                  <option value="Freezer_B">Freezer B</option>
-                </select>
+                />
               </div>
               <div>
                 <label>Machine Temp (℉)</label>
@@ -267,32 +203,23 @@ function Home() {
               <div className="buttonLayout">
                 <button type="button" onClick={handleSave}>
                   Save
-                </button>{" "}
-              {/* Saves updated info added*/}
+                </button>
                 <button type="button" onClick={handleClearForm}>
                   Clear
-                </button>{" "}
-              {/*Clears all of the info added into the form */}
+                </button>
               </div>
             </form>
-            {/* Moved the Generate Report button and report rendering here */}
-            <button onClick={() => setShowReport(!showReport)}>
+            <button
+              onClick={() => setShowReport(!showReport)}
+            >
               {showReport ? "Hide Report" : "Generate Report"}
             </button>
             {showReport && <Report />}
           </div>
         </div>
-        {deleteDialogOpen && (
-          <div className="confirmDialog">
-            <p>Are you sure you want to delete these records?</p>
-            <button onClick={handleDelete}>Confirm</button>
-            <button onClick={() => setDeleteDialogOpen(false)}>Cancel</button>
-          </div>
-        )}
       </div>
     </>
   );
 }
 
 export default Home;
-
