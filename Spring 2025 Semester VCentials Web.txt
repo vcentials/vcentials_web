@@ -1,0 +1,6 @@
+Spring 2025 Semester VCentials Web Application Patches and Upgrades:
+- Admin privileges for login (Admins can only view admin page and manipulate it)
+- Add username and VCID to registration process
+- Connect profile page to firebase to edit 
+- Connect report generator to firebase
+- Fix report and pdf generator to right size on metrics page
