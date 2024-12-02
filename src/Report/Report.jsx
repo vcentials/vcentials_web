@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NavBar from '../NavBar/NavBar.jsx'
-//import styles from './Report.module.css'; Add custom styling if needed
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
+//import styles from './Report.module.css'; Add custom styling if needed
 
 export function Report() {
   const [records, setRecords] = useState([]);
@@ -49,142 +50,186 @@ export function Report() {
     return isWithinDateRange && isLocationMatch && isRoomMatch && isMachineMatch && isUsernameMatch;
   });
 
-  const handleGenerateReport = () => {
-    navigate('/print-preview', { state: { records: filteredRecords } });
+  const handleGenerateReport = async () => {
+    try {
+      // Create temporary table with only filtered results
+      const tempTable = document.createElement('table');
+      tempTable.className = 'recordGrid';
+      tempTable.style.fontSize = '18px'; // Add font size
+      
+      // Add headers with font size
+      const thead = document.createElement('thead');
+      thead.style.fontSize = '18px';
+      thead.innerHTML = `
+        <tr>
+          <th style="font-size: 18px;">Date</th>
+          <th style="font-size: 18px;">Location</th>
+          <th style="font-size: 18px;">Room</th>
+          <th style="font-size: 18px;">Machine</th>
+          <th style="font-size: 18px;">Temperature</th>
+          <th style="font-size: 18px;">Username</th>
+        </tr>
+      `;
+      tempTable.appendChild(thead);
+
+      // Add filtered data with font size
+      const tbody = document.createElement('tbody');
+      tbody.style.fontSize = '18px';
+      filteredRecords.forEach(record => {
+        const row = document.createElement('tr');
+        row.style.fontSize = '18px';
+        row.innerHTML = `
+          <td style="font-size: 18px;">${record.date}</td>
+          <td style="font-size: 18px;">${record.location}</td>
+          <td style="font-size: 18px;">${record.room}</td>
+          <td style="font-size: 18px;">${record.machine}</td>
+          <td style="font-size: 18px;">${record.temp}</td>
+          <td style="font-size: 18px;">${record.username}</td>
+        `;
+        tbody.appendChild(row);
+      });
+      tempTable.appendChild(tbody);
+
+      // Add temp table to document temporarily
+      document.body.appendChild(tempTable);
+      
+      // Create canvas from temp table
+      const canvas = await html2canvas(tempTable);
+      
+      // Remove temp table
+      document.body.removeChild(tempTable);
+      
+      // Create PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      // Add centered title
+      pdf.setFontSize(16);
+      pdf.setFont(undefined, 'bold');
+      const title = 'Records Report';
+      const titleWidth = pdf.getStringUnitWidth(title) * pdf.getFontSize() / pdf.internal.scaleFactor;
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const titleX = (pageWidth - titleWidth) / 2;
+      pdf.text(title, titleX, 20);
+
+      // Add filtered table image
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 190;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 10, 30, imgWidth, imgHeight);
+
+      // Open in new window for print preview
+      const pdfBlob = pdf.output('blob');
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      window.open(blobUrl, '_blank');
+
+    } catch (error) {
+      console.error('Error generating report:', error);
+    }
   };
-  
+
+  // Update the return statement to show filtered results
   return (
-    <>
-    <NavBar/>
+    <div className="report">
+      <h2 className="report-title" style={{marginTop: '20px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold'}}>
+        Report View
+      </h2>
 
-    <div className="mt-5">
-    <Container>
-      <Row className='d-flex justify-content-center'>
-        <Col md="6">
-          <h2 className="report-title">Report View</h2>
-            <Form>
-              <div>
-                <div>
-                  <h4>Sorting options:</h4>
-                </div>
-              {['checkbox'].map((type) => (
-                <div key={`inline-${type}`} className="mb-3">
-                  <Form.Check
-                    inline
-                    label="Date"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-1`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Room"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Machine"
-                    type={type}
-                    id={`inline-${type}-3`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Location"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Username"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                </div>
-              ))}
-              </div>
+      {/* Existing filter controls */}
+      <div className="controls">
+        <label className="checkbox-label" style={{ marginRight: '10px'}}>
+          <input type="checkbox" checked={sortEnabled} onChange={handleSortChange} /> Sort by Date
+        </label>
+        <label className="checkbox-label" style={{ marginRight: '10px'}}>
+          <input type="checkbox" checked={groupEnabled} onChange={handleGroupChange} /> Group by Criteria
+        </label>
+        <div className="date-picker" style={{ marginTop: '20px'}}>
+          <label className="date-label" style={{ marginRight: '10px', marginBottom: '10px'}}>
+            Start Date:
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="date-input" 
+            />
+          </label>
+          <label className="date-label" style={{ marginRight: '10px'}}>
+            End Date:
+            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="date-input" />
+          </label>
+        </div>
+        <div className="location-picker" style={{marginTop: '20px'}}>
+          <label className="location-label" style={{marginBotton: '10px', marginRight: '10px'}}>
+            Location:
+            <select value={selectedLocation} onChange={(e) => setSelectedLocation(e.target.value)} className="location-select">
+              <option value="">All Locations</option>
+              <option value="West Campus">West Campus</option>
+              <option value="East Campus">East Campus</option>
+              <option value="Osceola Campus">Osceola Campus</option>
+            </select>
+          </label>
+        </div>
+        <div className="room-picker" style={{marginTop: '10px'}}>
+          <label className="room-label">
+            Room:
+            <input type="text" value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)} placeholder="Enter room number" className="room-input" />
+          </label>
+        </div>
+        <div className="machine-picker" style={{ marginTop: '10px'}}>
+          <label className="machine-label">
+            Machine:
+            <input type="text" value={selectedMachine} onChange={(e) => setSelectedMachine(e.target.value)} placeholder="Enter machine type" className="machine-input" />
+          </label>
+        </div>
+        <div className="username-picker" style={{ marginTop: '10px'}}>
+          <label className="username-label">
+            Username:
+            <input type="text" value={selectedUsername} onChange={(e) => setSelectedUsername(e.target.value)} placeholder="Enter username" className="username-input" />
+          </label>
+        </div>
+      </div>
 
-              <div>
-                <div>
-                  <h4>Grouping options:</h4>
-                </div>
-              {['checkbox'].map((type) => (
-                <div key={`inline-${type}`} className="mb-3">
-                  <Form.Check
-                    inline
-                    label="Date"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-1`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Room"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Machine"
-                    type={type}
-                    id={`inline-${type}-3`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Location"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                  <Form.Check
-                    inline
-                    label="Username"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                </div>
-              ))}
-              </div>
+      {/* Print button moved above filtered results */}
+      <button 
+        onClick={handleGenerateReport}
+        className="print-button"
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#f44336', // Changed to match red color
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          float: 'left',
+          marginBottom: '20px'
+        }}
+      >
+        Print Records
+      </button>
 
-              <div>
-
-                <Form.Label>Start Date</Form.Label>
-                <Form.Control type="Date" value={startDate} onChange={(e) => setStartDate(e.target.value)}></Form.Control>
-                <Form.Label>End Date</Form.Label>
-                <Form.Control type="Date" value={endDate} onChange={(e) => setEndDate(e.target.value)}></Form.Control>
-              </div>
-
-              <div>
-                <Form.Label>Location:</Form.Label>
-                <Form.Select aria-label="Default select example">
-                  <option value="">All Locations</option>
-                  <option value="West Campus">West Campus</option>
-                  <option value="East Campus">East Campus</option>
-                  <option value="Osceola Campus">Osceola Campus</option>
-                </Form.Select>
-              </div>
-
-              <Button variant="danger" type="submit" onClick={handleGenerateReport}>
-                  Generate Report
-              </Button>
-            
-          </Form>
-        </Col>
-
-      </Row>
-
-    </Container>
-
+      {/* Display filtered results */}
+      <div className="filteredResults" style={{marginTop: '20px', marginBottom: '20px', clear: 'both'}}>
+        <table className="recordGrid">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Room</th>
+              <th>Machine</th>
+              <th>Temperature</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredRecords.map((record, index) => (
+              <tr key={index}>
+                <td>{record.date}</td>
+                <td>{record.location}</td>
+                <td>{record.room}</td>
+                <td>{record.machine}</td>
+                <td>{record.temp}</td>
+                <td>{record.username}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    
-
-    </>
   );
 };
 
