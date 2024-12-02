@@ -8,17 +8,19 @@
 .splitLayout {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; /* Ensures the layout wraps on smaller screens */
+    flex-wrap: wrap;
+    margin-top: 20px;
 }
 
 .gridWrapper {
     flex: 1;
-    overflow-x: auto; /* Allows horizontal scrolling if content overflows */
+    overflow-x: auto;
 }
 
 .recordGrid {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
@@ -143,101 +145,151 @@ button:disabled {
     color: white;
 }
 
-/* Button container to ensure proper spacing */
+/* Add button positioning styles */
 .buttonContainer {
     display: flex;
-    justify-content: space-between; /* Evenly space the buttons */
-    gap: 10px; /* Optional: space between buttons */
-    margin-top: 15px; /* Space above the button group */
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-.buttonContainer button {
-    flex: 1; /* Ensure all buttons have the same width */
-    padding: 10px; /* Add padding for a better click area */
-    font-size: 16px; /* Adjust font size for readability */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
+.clearButton {
+    margin-bottom: 10px;
 }
 
-.buttonContainer button:hover {
-    background-color: #f0f0f0; /* Hover effect for better user experience */
+.generateReportButton {
+    margin-top: 0;
+    align-self: flex-end;
 }
 
-/* Mobile View - Adjust buttons for smaller screens */
-@media (max-width: 768px) {
-    .splitLayout {
-        flex-direction: column; /* Stack the elements vertically */
-        gap: 10px; /* Reduce space between elements */
-    }
-
-    .formLayout {
-        grid-template-columns: 1fr; /* Stack form inputs in one column */
-    }
-
-    .buttonLayout {
-        flex-direction: column; /* Stack buttons vertically */
-        align-items: center; /* Center align buttons when stacked */
-    }
-
-    .buttonContainer {
-        flex-direction: column; /* Stack buttons vertically on smaller screens */
-        align-items: center; /* Center align buttons when stacked */
-    }
-
-    .buttonContainer button {
-        width: 100%; /* Make buttons take up the full width on mobile */
-    }
-
-    .recordGrid th, .recordGrid td {
-        padding: 8px; /* Reduced padding for smaller screens */
-    }
-
-    .recordGrid {
-        font-size: 12px; /* Adjust font size for better readability on mobile */
-    }
-
-    .editorLayout {
-        padding: 15px; /* Reduce padding in editor layout on mobile */
-    }
-
-    button {
-        font-size: 12px; /* Adjust button font size for mobile */
-        padding: 8px 12px; /* Adjust button size for mobile */
-    }
-
-    .gridWrapper {
-        overflow-x: auto; /* Enable horizontal scrolling for the table */
-    }
+.reportContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    padding: 20px;
 }
 
-@media (max-width: 480px) {
-    .buttonContainer button {
-        font-size: 12px; /* Smaller font size for very small screens */
-        padding: 8px 12px; /* Adjust padding for smaller screens */
-    }
+/* Add mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .homePageView {
+    padding: 1vw;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
 
-    .recordGrid th, .recordGrid td {
-        font-size: 10px; /* Smaller font size for table on small screens */
-        padding: 6px; /* Adjust padding to make it more compact */
-    }
+  .splitLayout {
+    flex-direction: column;
+    width: 98%;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
 
-    .splitLayout {
-        gap: 5px; /* Reduce the gap even further for very small screens */
-    }
+  .gridWrapper {
+    overflow-x: auto;
+    width: 95%;
+    max-width: 95vw;
+  }
 
-    .editorLayout {
-        padding: 10px; /* Further reduce padding for small screens */
-    }
+  .buttonContainer {
+    width: 98%;
+    align-items: center;
+    margin: 1vw auto;
+  }
+
+  .clearButton,
+  .generateReportButton {
+    width: 98%;
+    margin: 1vw 0;
+    padding: 2vw;
+    font-size: 3.5vw;
+  }
+
+  .reportContainer {
+    width: 98%;
+    margin: 0 auto;
+    padding: 1vw;
+  }
+
+  .recordGrid {
+    width: 98%;
+    font-size: 3vw;
+    margin: 0 auto;
+  }
+
+  .recordGrid th,
+  .recordGrid td {
+    padding: 1vw;
+    word-break: break-word;
+    max-width: none;
+  }
+
+  .controls {
+    width: 98%;
+    margin: 0 auto;
+    padding: 5px;
+  }
+
+  .date-picker,
+  .location-picker,
+  .room-picker,
+  .machine-picker,
+  .username-picker {
+    width: 98%;
+    margin: 1vw 0;
+  }
+
+  input,
+  select {
+    width: 98%;
+    padding: 2vw;
+    font-size: 3.5vw;
+    box-sizing: border-box;
+    max-width: 95%;
+    height: 25px;
+  }
+
+  .inputField {
+    width: 98%;
+    margin: 1vw 0;
+  }
 }
 
-
-.confirmDialog button:first-child {
-    background-color: #4caf50;
-    color: white;
+.report-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-right: 20px;
 }
 
-.confirmDialog button:last-child {
-    background-color: #f44336;
-    color: white;
+.reportSection {
+  flex: 0 0 300px; /* Fixed width */
+  margin-left: auto; /* Push to right */
+  padding: 20px;
+}
+
+/* User input area styles */
+.userInputArea {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.inputField {
+    margin-bottom: 15px;
+}
+
+.inputField label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.inputField input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
